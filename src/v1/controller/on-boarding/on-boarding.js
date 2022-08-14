@@ -16,7 +16,8 @@ async function createUser (request, response, next) {
         password: hash,
         phonenumber: request.body.phonenumber,
         email: request.body.email
-    })
+    });
+
     //console.log(request.body.name, request.body.email, request.body.username, request.body.phonenumber, request.body.password)
      return jwt.sign('hello', process.env.KEY, {
         expiresIn: '2 days'
