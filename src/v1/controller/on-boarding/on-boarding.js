@@ -1,32 +1,28 @@
 'use strict'
 const {sanitizeUserInput} = require('../../../core/classes')
 const {errorHandling} = require('../../../core/error-handler')
+const bcrypt = require('bcrypt')
+require('dotenv').config()
+const UserDao = require('../../../core/dao/user')
 const jwt = require('jsonwebtoken')
+const db = require('../../../core/db')
 
-async function createUserAccount(request, response, next){
-    try{
-        const userAttributes = {
-            name: sanitizeUserInput(request.body.name),
-            username: sanitizeUserInput(request.body.username),
-            email: sanitizeUserInput(request.body.email),
-            phoneNumber: `+234` + sanitizeUserInput(request.body.phoneNumber),
-            password: sanitizeUserInput(request.body.password),
-            walletId: sanitizeUserInput(Math.floor(Math.random()* 1000000000)),
-        }
-            
-        if(!userAttributes.name) errorHandling(`400|Name is Required.|`)
-        if(!userAttributes.username) errorHandling(`400|Username is Required!.|`)
-        if(!userAttributes.email) errorHandling(`400|Email is Required!.|`)
-        if(userAttributes.phoneNumber) errorHandling('400|Phone number is required.|')
-        if(!userAttributes.password) errorHandling(`400|Please input a password!.|`)
-
-
-    }
-    catch(e){
-        next(new Error(e.stack))
-    }
+async function createUser (request, response, next) {
+    if(!request.body) errorHandling(`400|Missing fields.|`)
+    const hash = bcrypt.hashSync(request.body.password, 10)
+    db('user').insert({
+        name: request.body.name,
+        username: request.body.username,
+        password: hash,
+        phonenumber: request.body.phonenumber,
+        email: request.body.email
+    })
+    //console.log(request.body.name, request.body.email, request.body.username, request.body.phonenumber, request.body.password)
+     return jwt.sign('hello', process.env.KEY, {
+        expiresIn: '2 days'
+    })
 }
 
 module.exports = {
-    createUserAccount
+    createUser
 }

@@ -34,6 +34,6 @@ app.use((error, request, response, next) => {
     response.status(statusCode).json(statusMessage)
 })
 
-app.listen(PORT, db(), () => {
+app.listen(PORT, db, () => {
     console.log(`App Started, Port : ${PORT}`)
 })
