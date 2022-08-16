@@ -8,7 +8,7 @@ module.exports = {
             database: 'lendsqr',
             host: 'localhost',
             user: 'root',
-            password: 'ghostcod3r'
+            password: ''
         }
     },
 

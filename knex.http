@@ -1,0 +1,12 @@
+
+### Create User
+POST http://localhost:8181/v1/register
+Content-Type: application/json
+
+{
+  "name": "Abideen Sanyaolu",
+  "username": "Abideen123",
+  "password": "12345",
+  "phonenumber": "09160863918",
+  "email": "sanyaoluabideen@gmail.com"
+}
