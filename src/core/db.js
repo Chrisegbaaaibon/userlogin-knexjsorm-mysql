@@ -1,7 +1,7 @@
 const knex = require('knex');
 const knexfile = require('./knexfile');
 
-const db = knex(knexfile.development);
+const db = knex(knexfile);
 
 (async function connectToDB(retries = 5) {
     if (!retries) {

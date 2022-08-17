@@ -8,10 +8,17 @@ const { User } = require('../../../core/models');
 
 const register = async (req, res, next)=>{
     const props = req.body.user;
-    User.findOne({username: props.username, email: props.email })
-
+    const oldUser = await User.findOne({username: props.username, email: props.email })
+    if(oldUser) errorHandling(`400|User already exists|`)
+    const token = jwt.sign(props.email, process.env.KEY, {
+        expiresIn: '2h'
+    })
+    User.create(props);
+    return {
+        token
+    }
 }
 
 module.exports = {
-    createUser
+    register
 }

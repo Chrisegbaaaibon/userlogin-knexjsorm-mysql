@@ -5,6 +5,8 @@ exports.up = function (knex) {
         table.string('name').notNullable();
         table.string('username').notNullable().unique();
         table.string('password').notNullable();
+        table.integer('accountnumber').unique()
+        table.integer('balance').defaultTo(0.0)
         table.timestamps(true, true);
     });
 };
@@ -12,19 +14,3 @@ exports.up = function (knex) {
 exports.down = function (knex) {
     return knex.schema.dropTableIfExists('user');
 }
-
-exports.up = function (knex){
-    return knex.schema.createTable('account', table =>{
-        table.increments('id');
-        table.string('userId').unique().notNullable();
-        table.string('accountName').notNullable();
-        table.increments('accountNumber').unique();
-        table.string('phonenumber').unique().notNullable()
-        table.string('balance');
-    })
-}
-
-exports.down = function (knex){
-    return knex.schema.dropTableIfExists('account')
-}
-

@@ -33,7 +33,7 @@ const beforeSave = user => {
 
 const generateAccountNumber = user => {
     user.accountNumber = `0` + Math.floor(1000000000 + Math.random() * 9000000000);
-    return user.accountNumber 
+    return user
 }
 
 module.exports = knex => {
@@ -46,11 +46,7 @@ module.exports = knex => {
 
     async function create(props){
         await beforeSave(props)
-            .then(async user => {
-                generateAccountNumber(user.accountNumber)
-                guts.create(user)
-                }
-            )
+            .then( user => guts.create(generateAccountNumber(user)))
     }
 
 
